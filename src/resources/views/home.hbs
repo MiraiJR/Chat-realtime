@@ -1,0 +1,41 @@
+<div id="app-login">
+    <div id="login-title">
+        Hãy cho tôi biết nickname của bạn là gì nào?
+    </div>
+    <div id="login-main">
+        <input type="text" id="nickname" name="nickname" value="" placeholder="Nickname_/\^_^/\_">
+        <button class="btn btn-primary" id="join-chat">Vào chát</button>
+    </div>
+</div>
+
+<div id="app-chat">
+        <div id="app-left" class="col-4">
+            <div class="app-title">
+                Những người tham gia
+            </div>
+            <div id="app-content-participants">
+                
+            </div>
+        </div>
+        <div id="app-right" class="col-8">
+            <div class="app-title">
+                Phòng chat
+            </div>
+            <marquee id="welcome-participant" class="marq"
+                 bgcolor="Green"
+                 behavior=alternate
+                 direction="left"
+                 loop="">
+            </marquee>
+            <div id="app-room-chat">
+                <div id="app-room-chat-content">
+                </div>
+                <div id="app-room-form-msg">
+                    <div class="row">
+                        <input type="text" id="content-msg" name="content-msg" class="col-10" value="" placeholder="...">
+                        <button id="send-msg" class="btn btn-primary col-2" type="button">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
