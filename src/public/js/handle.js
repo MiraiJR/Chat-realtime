@@ -43,13 +43,16 @@ socket.on('server-send-data', (data) => {
 })
 
 socket.on('server-send-msg-to-everyone', (data) => {
-    $('#app-room-chat-content').append(`<div class="row">
-                                            <div class="col-12">${data.timeChat}</div>
-                                            <div class="participant-chat-nickname col-2">
+    $('#app-room-chat-content').append(`<div class="col-12">${data.timeChat}</div>
+                                        <div class="participant-chat-nickname-father">
+                                            <div class="col-6"></div>
+                                            <div class="participant-chat-nickname">
                                                 ${data.nickname}
                                             </div>
-                                            <div class="col-10"></div>
-                                            <div class="participant-chat-content col-8">
+                                        </div>
+                                        <div class="participant-chat-content-father">
+                                            <div class="col-4"></div>
+                                            <div class="participant-chat-content">
                                                 ${data.contentChat}
                                             </div>
                                         </div>`)
@@ -77,17 +80,19 @@ $(document).ready(() => {
                     time: time
                 })
                 $('#content-msg').val("")
-                $('#app-room-chat-content').append(`<div class="row">
-                                                <div class="col-12 time-main">${time}</div>
-                                                <div class="col-10"></div>
-                                                <div class="participant-chat-nickname participant-chat-nickname-main col-2">
-                                                    ${nickname}
-                                                </div>
-                                                <div class="col-4"></div>
-                                                <div class="participant-chat-content participant-chat-content-main col-8">
-                                                    ${contentmsg}
-                                                </div>
-                                            </div>`)
+                $('#app-room-chat-content').append(`<div class="col-12 time-main">${time}</div>
+                                                    <div class="participant-chat-nickname-father-main">
+                                                        <div class="col-6"></div>
+                                                        <div class="participant-chat-nickname participant-chat-nickname-main">
+                                                            ${nickname}
+                                                        </div>
+                                                    </div>
+                                                    <div class="participant-chat-content-father-main">
+                                                        <div class="col-4"></div>
+                                                        <div class="participant-chat-content participant-chat-content-main">
+                                                            ${contentmsg}
+                                                        </div>
+                                                    </div>`)
             })
         }
 
