@@ -40,6 +40,8 @@ socketIO.on('connection', (socket) => {
             id: socket.id,
             state: "disconnect"
         })
+        
+        socketIO.sockets.emit('server-send-data', listSocketConnected)
     })
 
     socket.emit('server-send-id-socket', socket.id)
