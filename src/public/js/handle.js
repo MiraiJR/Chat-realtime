@@ -56,6 +56,9 @@ socket.on('server-send-msg-to-everyone', (data) => {
                                                 ${data.contentChat}
                                             </div>
                                         </div>`)
+
+    var listMsg = $('.participant-chat-content:last-child')
+    listMsg[listMsg.length - 1].scrollIntoView()
 })
 
 $(document).ready(() => {
@@ -71,28 +74,23 @@ $(document).ready(() => {
             $('#app-login').hide(500)
             $('#app-chat').show(1000)
             $('#welcome-participant').html(`Chào ${nickname} nha (^_^)/`)
+
+            $('#content-msg').keyup(function(e){
+                if(e.keyCode == 13)
+                {
+                    $(this).attr("disabled", "disabled");
+
+                    sendMsgToServer(socket, nickname)
+                    
+                    $(this).removeAttr("disabled");
+
+                    $(this).focus()
+                }
+            });
+
             $('#send-msg').click(() => {
-                var dt = new Date();
-                var time = dt.getHours() + ":" + dt.getMinutes()
-                const contentmsg = $('#content-msg').val()
-                socket.emit('client-send-msg', msg = {
-                    content: contentmsg,
-                    time: time
-                })
-                $('#content-msg').val("")
-                $('#app-room-chat-content').append(`<div class="col-12 time-main">${time}</div>
-                                                    <div class="participant-chat-nickname-father-main">
-                                                        <div class="col-6"></div>
-                                                        <div class="participant-chat-nickname participant-chat-nickname-main">
-                                                            ${nickname}
-                                                        </div>
-                                                    </div>
-                                                    <div class="participant-chat-content-father-main">
-                                                        <div class="col-4"></div>
-                                                        <div class="participant-chat-content participant-chat-content-main">
-                                                            ${contentmsg}
-                                                        </div>
-                                                    </div>`)
+                sendMsgToServer(socket, nickname)
+                $("#content-msg").focus()
             })
         }
 
@@ -105,3 +103,30 @@ $(document).ready(() => {
         
     })
 })
+
+function sendMsgToServer(socket, nickname) {
+    var dt = new Date();
+    var time = dt.getHours() + ":" + dt.getMinutes()
+    const contentmsg = $('#content-msg').val()
+    socket.emit('client-send-msg', msg = {
+        content: contentmsg,
+        time: time
+    })
+    $('#content-msg').val("")
+    $('#app-room-chat-content').append(`<div class="col-12 time-main">${time}</div>
+                                        <div class="participant-chat-nickname-father-main">
+                                            <div class="col-6"></div>
+                                            <div class="participant-chat-nickname participant-chat-nickname-main">
+                                                ${nickname}
+                                            </div>
+                                        </div>
+                                        <div class="participant-chat-content-father-main">
+                                            <div class="col-4"></div>
+                                            <div class="participant-chat-content participant-chat-content-main">
+                                                ${contentmsg}
+                                            </div>
+                                        </div>`)
+        //trượt tới tin nhắn mới nhất
+        var listMsg = $('.participant-chat-content:last-child')
+        listMsg[listMsg.length - 1].scrollIntoView()
+}
