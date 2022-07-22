@@ -43,6 +43,7 @@ socket.on('server-send-data', (data) => {
 })
 
 socket.on('server-send-msg-to-everyone', (data) => {
+    
     $('#app-room-chat-content').append(`<div class="col-12">${data.timeChat}</div>
                                         <div class="participant-chat-nickname-father">
                                             <div class="col-6"></div>
@@ -107,7 +108,11 @@ $(document).ready(() => {
 function sendMsgToServer(socket, nickname) {
     var dt = new Date();
     var time = dt.getHours() + ":" + dt.getMinutes()
-    const contentmsg = $('#content-msg').val()
+    var contentmsg = $('#content-msg').val()
+    if(isURL(contentmsg)) {
+        contentmsg = `<a href="${contentmsg}">${contentmsg}</a>`
+    }
+    console.log(contentmsg)
     socket.emit('client-send-msg', msg = {
         content: contentmsg,
         time: time
@@ -115,9 +120,11 @@ function sendMsgToServer(socket, nickname) {
     $('#content-msg').val("")
     $('#app-room-chat-content').append(`<div class="col-12 time-main">${time}</div>
                                         <div class="participant-chat-nickname-father-main">
-                                            <div class="col-6"></div>
-                                            <div class="participant-chat-nickname participant-chat-nickname-main">
+                                            <div class="row">
+                                                <div class="col-6"></div>
+                                                <div class="participant-chat-nickname participant-chat-nickname-main">
                                                 ${nickname}
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="participant-chat-content-father-main">
@@ -130,3 +137,9 @@ function sendMsgToServer(socket, nickname) {
         var listMsg = $('.participant-chat-content:last-child')
         listMsg[listMsg.length - 1].scrollIntoView()
 }
+
+function isURL(str) {
+    var urlRegex = '^(?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$';
+    var url = new RegExp(urlRegex, 'i');
+    return str.length < 2083 && url.test(str);
+  }
